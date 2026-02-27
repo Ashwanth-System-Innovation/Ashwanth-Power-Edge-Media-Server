@@ -1,0 +1,41 @@
+---
+version: '2'
+networks:
+    backend:
+        driver: bridge
+    general:
+        driver: bridge
+services:
+    mediabutler:
+        container_name: "mediabutler"
+        image: mediabutler/server:latest
+        hostname: mediabutler
+        environment:
+            - "URL=https://example.com/mediabutler/"
+            - "DB_URL=mongodb://mongo:27017/mediabutler"
+            - "PLEX_MACHINE_ID=PLEX_MACHINE_ID_HERE"
+            - "PLEX_URL=http://192.168.1.100:32400/"
+        volumes:
+            - ${HOME}/docker/mediabutler:/config:rw
+        networks:
+            - general
+            - backend
+        ports:
+            - 9876:9876
+        links:
+            - mongo
+        depends_on:
+            - mongo
+    mongo:
+        image: mongo:latest
+        container_name: "mongo"
+        hostname: mongo
+        environment:
+            - MONGO_DATA_DIR=/data/db
+            - MONGO_LOG_DIR=/dev/null
+            - MONGO_URL=mongodb://mongo:27017/
+        volumes:
+            - ${HOME}/docker/mongodb:/data/db:rw
+        networks:
+            - backend
+        command: mongod --smallfiles --bind_ip_all

@@ -1,0 +1,14 @@
+[Unit]
+Description=MediaButler Server
+Documentation=https://github.com/Mediabutler/Server
+After=network.target
+
+[Service]
+EnvironmentFile=/opt/mediabutler/.env
+Type=simple
+WorkingDirectory=/opt/mediabutler/
+ExecStart=/usr/bin/node /opt/mediabutler/server.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
