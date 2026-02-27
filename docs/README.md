@@ -1,4 +1,4 @@
-# Ashwanth System & Innovation API Server
+# Ashwanth-Power-Edge-Media-Server
 
 ## What is it?
 
